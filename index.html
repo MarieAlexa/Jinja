@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario</title>
+</head>
+<body>
+    <h1>Recetario</h1>
+    <a href="{{ url_for('nueva_receta') }}">Agregar Nueva Receta</a>
+    <ul>
+        {% for receta in recetas %}
+            <li>
+                <strong>{{ receta.nombre }}</strong> <br>
+                <a href="{{ url_for('ver_receta', receta_id=receta.id) }}">Ver Detalles</a> |
+                <a href="{{ url_for('editar_receta', receta_id=receta.id) }}">Editar</a> |
+                <a href="{{ url_for('eliminar_receta', receta_id=receta.id) }}" onclick="return confirm('¿Seguro que quieres eliminar esta receta?');">Eliminar</a>
+            </li>
+        {% else %}
+            <p>No hay recetas disponibles.</p>
+        {% endfor %}
+    </ul>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
